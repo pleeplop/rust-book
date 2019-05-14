@@ -1,5 +1,5 @@
 [package]
-name = "smart-pointers"
+name = "reference_cycles"
 version = "0.1.0"
 authors = ["pleeplop <pleeplop@users.noreply.github.com>"]
 edition = "2018"
