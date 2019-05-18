@@ -12,10 +12,10 @@ fn main() {
             println!("using purle as the background color");
         } else {
             println!("Using orange as the background color");
-        }
+        };
     } else {
         println!("Using blue as the background color");
-    }
+    };
 
     let mut stack = Vec::new();
     stack.push(1);
@@ -24,12 +24,12 @@ fn main() {
 
     while let Some(top) = stack.pop() {
         println!("top {}", top);
-    }
+    };
 
     let v = vec!['a', 'b', 'c'];
     for (index, value) in v.iter().enumerate() {
         println!("{} is at index {}", value, index);
-    }
+    };
 
     let (x, y, z) = (1, 2, 3);
 
@@ -42,7 +42,7 @@ fn main() {
         1 | 2 => println!("one or two"),
         3...5 => println!("three through five"),
         _ => println!("other"),
-    }
+    };
 
     let x = Some(5);
     let y = 10;
@@ -58,7 +58,7 @@ fn main() {
         'a'...'j' => println!("early ASCII letters"),
         'k'...'z' => println!("late ASCII letters"),
         _ => println!("something else"),
-    }
+    };
 
     let p = Point { x: 0, y: 7 };
     let Point { x: a, y: b } = p;
@@ -72,7 +72,7 @@ fn main() {
         Point { x, y: 0 } => println!("On the x axis at {}", x),
         Point { x: 0, y } => println!("On the y axis at {}", y),
         Point { x, y } => println!("On neither axis: ({}, {})", x, y),
-    }
+    };
 
     let msg = Message::ChangeColor(Color::Rgb(0, 160, 255));
     match msg {
@@ -84,9 +84,74 @@ fn main() {
             println!("Change the color to red {}, green {} and blue {}", r, g, b),
         Message::ChangeColor(Color::Hsv(h, s, v)) =>
             println!("Change the color to hue {}, saturation {} and value {}", h, s, v),
-    }
+    };
 
     let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
+
+    foo(1, 2);
+
+    let mut setting_value = Some(5);
+    let new_setting_value = Some(10);
+    match (setting_value, new_setting_value) {
+        (Some(_), Some(_)) => println!("Can't overwrite an existing customized value"),
+        _ => setting_value = new_setting_value,
+    };
+    println!("setting is {:?}", setting_value);
+
+    let numbers = (1, 2, 3, 4, 5);
+    match numbers {
+        (first, _, third, _, fifth) => println!("Some numbers: {}, {}, {}", first, third, fifth),
+    };
+    let _x = 5;
+    let y = 6;
+
+    let s = Some(String::from("Hello!"));
+    if let Some(_s) = s {
+        println!("found a string");
+    };
+//    println!("{:?}", s);
+
+    match p {
+        Point { x, .. } => println!("x is {}", x),
+    };
+    match numbers {
+        (first, .., fifth) => println!("first is {} and fith is {}", first, fifth),
+    };
+    let num = Some(4);
+    match num {
+        Some(x) if x < 5 => println!("less than five: {}", x),
+        Some(x) => println!("{}", x),
+        None => (),
+    };
+    let x = Some(5);
+    let y = 10;
+    match x {
+        Some(50) => println!("Got 50"),
+        Some(n) if n == y => println!("matched n = {:?}", n),
+        _ => println!("Default case x = {:?}", x),
+    }
+
+    let x = 4;
+    let y = false;
+    match x {
+        4 | 5 | 6 if y => println!("yes"),
+        _ => println!("false"),
+    }
+    let msg = SimpleMessage::Hello { id: 5 };
+    match msg {
+        SimpleMessage::Hello { id: id_variable @ 3...7 } => println!("Found an id in range {}",
+                                                                     id_variable),
+        SimpleMessage::Hello { id: 10...12 } => println!("Found an id in another range"),
+        SimpleMessage::Hello { id } => println!("Found some other id {}", id),
+    };
+}
+
+enum SimpleMessage {
+    Hello { id: i32 },
+}
+
+fn foo(_: i32, y: i32) {
+    println!("This code only use the y parameter {}", y);
 }
 
 enum Color {
